@@ -3,7 +3,7 @@ The Yaml Component
 
     The Yaml component loads and dumps YAML files.
 
-What is It?
+What is it?
 -----------
 
 The Symfony Yaml component parses YAML strings to convert them to PHP arrays.
