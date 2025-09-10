@@ -1,18 +1,12 @@
 The Yaml Component
 ==================
 
-    The Yaml component loads and dumps YAML files.
+The Symfony Yaml component loads and dumps YAML files. It parses YAML strings
+into PHP arrays and can also convert PHP arrays back into YAML strings.
 
-What is It?
------------
-
-The Symfony Yaml component parses YAML strings to convert them to PHP arrays.
-It is also able to convert PHP arrays to YAML strings.
-
-`YAML`_, *YAML Ain't Markup Language*, is a human friendly data serialization
-standard for all programming languages. YAML is a great format for your
-configuration files. YAML files are as expressive as XML files and as readable
-as INI files.
+`YAML`_, *YAML Ain't Markup Language*, is a human-friendly data serialization
+language for all programming languages. It is a popular format for configuration
+files, balancing readability with advanced features.
 
 .. tip::
 
