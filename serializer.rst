@@ -1357,8 +1357,8 @@ normalizers (in order of priority):
     The default normalization format for objects that implement :class:`Symfony\\Component\\Uid\\Ulid`
     is the Base 32 format (example: ``01E439TP9XJZ9RPFH3T1PYBCR8``).
     You can change the string format by setting the serializer context option
-    ``UidNormalizer::NORMALIZATION_FORMAT_KEY`` to ``UidNormalizer::NORMALIZATION_FORMAT_BASE_58``,
-    ``UidNormalizer::NORMALIZATION_FORMAT_BASE_32`` or ``UidNormalizer::NORMALIZATION_FORMAT_RFC_4122``.
+    ``UidNormalizer::NORMALIZATION_FORMAT_KEY`` to ``UidNormalizer::NORMALIZATION_FORMAT_BASE58``,
+    ``UidNormalizer::NORMALIZATION_FORMAT_BASE32`` or ``UidNormalizer::NORMALIZATION_FORMAT_RFC4122``.
 
     Also it can denormalize ``uuid`` or ``ulid`` strings to :class:`Symfony\\Component\\Uid\\Uuid`
     or :class:`Symfony\\Component\\Uid\\Ulid`. The format does not matter.
