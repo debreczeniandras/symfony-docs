@@ -973,7 +973,7 @@ works just like serializing a single object::
     $person2 = new Person('John Smith', 52, true);
 
     $persons = [$person1, $person2];
-    $JsonContent = $serializer->serialize($persons, 'json');
+    $jsonContent = $serializer->serialize($persons, 'json');
 
     // $jsonContent contains [{"name":"Jane Doe","age":39,"sportsman":false},{"name":"John Smith","age":52,"sportsman":true}]
 
