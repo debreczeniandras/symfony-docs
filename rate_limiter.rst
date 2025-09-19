@@ -230,16 +230,69 @@ prevents that number from being higher than 5,000).
 Rate Limiting in Action
 -----------------------
 
+Injecting the Rate Limiter Service
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+After having configured one or more rate limiters, you have two ways of injecting
+them in any service or controller:
+
+**(1) Use a specific argument name**
+
+Type-hint your construtor/method argument with ``RateLimiterFactoryInterface`` and name
+the argument using this pattern: "rate limiter name in camelCase" + ``Limiter`` suffix.
+For example, to inject the ``anonymous_api`` limiter defined earlier, use an
+argument named ``$anonymousApiLimiter``::
+
+    // src/Controller/ApiController.php
+    namespace App\Controller;
+
+    use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+    use Symfony\Component\HttpFoundation\Response;
+    use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
+
+    class ApiController extends AbstractController
+    {
+        public function index(RateLimiterFactoryInterface $anonymousApiLimiter): Response
+        {
+            // ...
+        }
+    }
+
+**(2) Use the ``#[Target]`` attribute**
+
+When :ref:`dealing with multiple implementations of the same type <autowiring-multiple-implementations-same-type>`
+the ``#[Target]`` attribute helps you select which one to inject. Symfony creates
+a target called "rate limiter name" + ``.limiter`` suffix.
+
+For example, to select the ``anonymous_api`` limiter defined earlier, use
+``anonymous_api.limiter`` as the target::
+
+    // ...
+    use Symfony\Component\DependencyInjection\Attribute\Target;
+
+    class ApiController extends AbstractController
+    {
+        public function index(
+            #[Target('anonymous_api.limiter')] RateLimiterFactoryInterface $rateLimiter
+        ): Response
+        {
+            // ...
+        }
+    }
+
 .. versionadded:: 7.3
 
     :class:`Symfony\\Component\\RateLimiter\\RateLimiterFactoryInterface` was
     added and should now be used for autowiring instead of
     :class:`Symfony\\Component\\RateLimiter\\RateLimiterFactory`.
 
-After having installed and configured the rate limiter, inject it in any service
-or controller and call the ``consume()`` method to try to consume a given number
-of tokens. For example, this controller uses the previous rate limiter to control
-the number of requests to the API::
+Using the Rate Limiter Service
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+After having injected the rate limiter in any service or controller, call the
+``consume()`` method to try to consume a given number of tokens. For example,
+this controller uses the previous rate limiter to control the number of requests
+to the API::
 
     // src/Controller/ApiController.php
     namespace App\Controller;
@@ -252,8 +305,8 @@ the number of requests to the API::
 
     class ApiController extends AbstractController
     {
-        // if you're using service autowiring, the variable name must be:
-        // "rate limiter name" (in camelCase) + "Limiter" suffix
+        // the argument name here is important; read the previous section about
+        // how to inject a specific rate limiter service
         public function index(Request $request, RateLimiterFactoryInterface $anonymousApiLimiter): Response
         {
             // create a limiter based on a unique identifier of the client

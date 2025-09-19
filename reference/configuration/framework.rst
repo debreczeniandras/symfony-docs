@@ -277,6 +277,46 @@ package:
 
     If a URL is set, the JSON manifest is downloaded on each request using the `http_client`_.
 
+After having configured one or more asset packages, you have two ways of injecting
+them in any service or controller:
+
+**(1) Use a specific argument name**
+
+Type-hint your construtor/method argument with ``PackageInterface`` and name
+the argument using this pattern: "asset package name in camelCase". For example,
+to inject the ``foo_package`` package defined earlier::
+
+    use Symfony\Component\Asset\PackageInterface;
+
+    class SomeService
+    {
+        public function __construct(
+            private PackageInterface $fooPackage
+        ): void {
+            // ...
+        }
+    }
+
+**(2) Use the ``#[Target]`` attribute**
+
+When :ref:`dealing with multiple implementations of the same type <autowiring-multiple-implementations-same-type>`
+the ``#[Target]`` attribute helps you select which one to inject. Symfony creates
+a target called "asset package name" + ``.package`` suffix.
+
+For example, to select the ``foo_package`` package defined earlier::
+
+    // ...
+    use Symfony\Component\DependencyInjection\Attribute\Target;
+
+    class SomeService
+    {
+        public function __construct(
+            #[Target('foo_package.package')] private PackageInterface $package
+        ): void {
+            // ...
+        }
+    }
+
 .. _reference-framework-assets-packages:
 
 packages

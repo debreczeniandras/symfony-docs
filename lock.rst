@@ -291,25 +291,42 @@ provides :ref:`named lock <reference-lock-resources-name>`:
             ;
         };
 
-An autowiring alias is created for each named lock with a name using the camel
-case version of its name suffixed by ``LockFactory``.
+After having configured one or more named locks, you have two ways of injecting
+them in any service or controller:
 
-For instance, the ``invoice`` lock can be injected by naming the argument
-``$invoiceLockFactory`` and type-hinting it with
-:class:`Symfony\\Component\\Lock\\LockFactory`::
+**(1) Use a specific argument name**
 
-    // src/Controller/PdfController.php
-    namespace App\Controller;
+Type-hint your construtor/method argument with ``LockFactory`` and name the
+argument using this pattern: "lock name in camelCase" + ``LockFactory`` suffix.
+For example, to inject the ``invoice`` package defined earlier::
 
-    use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-    use Symfony\Component\HttpFoundation\Response;
     use Symfony\Component\Lock\LockFactory;
 
-    class PdfController extends AbstractController
+    class SomeService
     {
-        #[Route('/download/terms-of-use.pdf')]
-        public function downloadPdf(LockFactory $invoiceLockFactory, MyPdfGeneratorService $pdf): Response
-        {
+        public function __construct(
+            private LockFactory $invoiceLockFactory
+        ): void {
+            // ...
+        }
+    }
+
+**(2) Use the ``#[Target]`` attribute**
+
+When :ref:`dealing with multiple implementations of the same type <autowiring-multiple-implementations-same-type>`
+the ``#[Target]`` attribute helps you select which one to inject. Symfony creates
+a target called "asset package name" + ``.lock.factory`` suffix.
+
+For example, to select the ``invoice`` lock defined earlier::
+
+    // ...
+    use Symfony\Component\DependencyInjection\Attribute\Target;
+
+    class SomeService
+    {
+        public function __construct(
+            #[Target('invoice.lock.factory')] private LockFactory $lockFactory
+        ): void {
             // ...
         }
     }
