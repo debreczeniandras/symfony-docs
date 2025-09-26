@@ -2578,6 +2578,8 @@ using the :ref:`ConstructorExtractor <components-property-information-constructo
 .. versionadded:: 7.3
 
     The ``with_constructor_extractor`` option was introduced in Symfony 7.3.
+    It's required to set a value for it because its default value will change
+    from ``false`` to ``true`` in Symfony 8.0.
 
 rate_limiter
 ~~~~~~~~~~~~
