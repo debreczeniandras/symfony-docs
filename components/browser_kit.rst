@@ -69,6 +69,12 @@ The value returned by the ``request()`` method is an instance of the
 :doc:`DomCrawler component </components/dom_crawler>`, which allows accessing
 and traversing HTML elements programmatically.
 
+.. note::
+
+    After making a request, subsequent requests will make the client to
+    reboot the kernel. This clears the security token, detaches Doctrine
+    entities, etc. Read more about :ref:`making multiple requests in the same test`.
+
 The :method:`Symfony\\Component\\BrowserKit\\AbstractBrowser::jsonRequest` method,
 which defines the same arguments as the ``request()`` method, is a shortcut to
 convert the request parameters into a JSON string and set the needed HTTP headers::
