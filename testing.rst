@@ -580,6 +580,8 @@ This allows you to create all types of requests you can think of:
     :ref:`framework.test <reference-framework-test>` option is enabled).
     This means you can override the service entirely if you need to.
 
+.. _testing-multiple-requests-in-one-test:
+
 Multiple Requests in One Test
 .............................
 
