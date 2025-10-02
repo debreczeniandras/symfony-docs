@@ -551,7 +551,9 @@ the current firewall and not the other ones.
 
 **type**: ``string`` **default**: ``/logout``
 
-The path which triggers logout. You need to set up a route with a matching path.
+The path or route name that triggers the logout. If the value starts with a
+``/`` character, it's treated as a path; otherwise, it's treated as a route
+name. If you use a path, make sure to also define a route that matches it.
 
 target
 ......
