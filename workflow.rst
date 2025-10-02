@@ -366,7 +366,7 @@ When :ref:`dealing with multiple implementations of the same type <autowiring-mu
 the ``#[Target]`` attribute helps you select which one to inject. Symfony creates
 a target with the same name as each workflow.
 
-For example, to select the ``blog_publishing`` lock defined earlier::
+For example, to select the ``blog_publishing`` workflow defined earlier::
 
     use Symfony\Component\DependencyInjection\Attribute\Target;
     use Symfony\Component\Workflow\WorkflowInterface;
