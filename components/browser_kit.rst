@@ -73,7 +73,7 @@ and traversing HTML elements programmatically.
 
     After making a request, subsequent requests will make the client to
     reboot the kernel. This clears the security token, detaches Doctrine
-    entities, etc. Read more about :ref:`making multiple requests in the same test`.
+    entities, etc. Read more about :ref:`making multiple requests in the same test <testing-multiple-requests-in-one-test>`.
 
 The :method:`Symfony\\Component\\BrowserKit\\AbstractBrowser::jsonRequest` method,
 which defines the same arguments as the ``request()`` method, is a shortcut to
