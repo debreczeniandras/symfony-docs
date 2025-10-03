@@ -1024,25 +1024,6 @@ The minimum version of TLS to accept. The value must be one of the
 
     The ``crypto_method`` option was introduced in Symfony 6.3.
 
-.. _reference-http-client-retry-delay:
-
-delay
-.....
-
-**type**: ``integer`` **default**: ``1000``
-
-The initial delay in milliseconds used to compute the waiting time between retries.
-
-.. _reference-http-client-retry-enabled:
-
-enabled
-.......
-
-**type**: ``boolean`` **default**: ``false``
-
-Whether to enable the support for retry failed HTTP request or not.
-This setting is automatically set to true when one of the child settings is configured.
-
 extra
 .....
 
@@ -1065,15 +1046,6 @@ headers
 An associative array of the HTTP headers added before making the request. This
 value must use the format ``['header-name' => 'value0, value1, ...']``.
 
-.. _reference-http-client-retry-http-codes:
-
-http_codes
-..........
-
-**type**: ``array`` **default**: :method:`Symfony\\Component\\HttpClient\\Retry\\GenericRetryStrategy::DEFAULT_RETRY_STATUS_CODES`
-
-The list of HTTP status codes that triggers a retry of the request.
-
 http_version
 ............
 
@@ -1081,18 +1053,6 @@ http_version
 
 The HTTP version to use, typically ``'1.1'``  or ``'2.0'``. Leave it to ``null``
 to let Symfony select the best version automatically.
-
-.. _reference-http-client-retry-jitter:
-
-jitter
-......
-
-**type**: ``float`` **default**: ``0.1`` (must be between 0.0 and 1.0)
-
-This option adds some randomness to the delay. It's useful to avoid sending
-multiple requests to the server at the exact same time. The randomness is
-calculated as ``delay * jitter``. For example: if delay is ``1000ms`` and jitter
-is ``0.2``, the actual delay will be a number between ``800`` and ``1200`` (1000 +/- 20%).
 
 local_cert
 ..........
@@ -1110,16 +1070,6 @@ local_pk
 
 The path of a file that contains the `PEM formatted`_ private key of the
 certificate defined in the ``local_cert`` option.
-
-.. _reference-http-client-retry-max-delay:
-
-max_delay
-.........
-
-**type**: ``integer`` **default**: ``0``
-
-The maximum amount of milliseconds initial to wait between retries.
-Use ``0`` to not limit the duration.
 
 max_duration
 ............
@@ -1148,26 +1098,6 @@ max_redirects
 
 The maximum number of redirects to follow. Use ``0`` to not follow any
 redirection.
-
-.. _reference-http-client-retry-max-retries:
-
-max_retries
-...........
-
-**type**: ``integer`` **default**: ``3``
-
-The maximum number of retries for failing requests. When the maximum is reached,
-the client returns the last received response.
-
-.. _reference-http-client-retry-multiplier:
-
-multiplier
-..........
-
-**type**: ``float`` **default**: ``2``
-
-This value is multiplied to the delay each time a retry occurs, to distribute
-retries in time instead of making all of them sequentially.
 
 no_proxy
 ........
@@ -1239,6 +1169,7 @@ This option configures the behavior of the HTTP client when some request fails,
 including which types of requests to retry and how many times. The behavior is
 defined with the following options:
 
+* :ref:`retry_strategy <reference-http-client-retry-retry-strategy>`
 * :ref:`delay <reference-http-client-retry-delay>`
 * :ref:`http_codes <reference-http-client-retry-http-codes>`
 * :ref:`jitter <reference-http-client-retry-jitter>`
@@ -1272,8 +1203,20 @@ defined with the following options:
                     retry_failed:
                         max_retries: 4
 
+.. _reference-http-client-retry-enabled:
+
+enabled
+"""""""
+
+**type**: ``boolean`` **default**: ``false``
+
+Whether to enable the support for retry failed HTTP request or not.
+This setting is automatically set to true when one of the child settings is configured.
+
+.. _reference-http-client-retry-retry-strategy:
+
 retry_strategy
-..............
+""""""""""""""
 
 **type**: ``string``
 
@@ -1283,6 +1226,66 @@ time to wait between retries. By default, it uses an instance of
 with ``http_codes``, ``delay``, ``max_delay``, ``multiplier`` and ``jitter``
 options. This class has to implement
 :class:`Symfony\\Component\\HttpClient\\Retry\\RetryStrategyInterface`.
+
+.. _reference-http-client-retry-http-codes:
+
+http_codes
+""""""""""
+
+**type**: ``array`` **default**: :method:`Symfony\\Component\\HttpClient\\Retry\\GenericRetryStrategy::DEFAULT_RETRY_STATUS_CODES`
+
+The list of HTTP status codes that triggers a retry of the request.
+
+.. _reference-http-client-retry-delay:
+
+delay
+"""""
+
+**type**: ``integer`` **default**: ``1000``
+
+The initial delay in milliseconds used to compute the waiting time between retries.
+
+.. _reference-http-client-retry-jitter:
+
+jitter
+""""""
+
+**type**: ``float`` **default**: ``0.1`` (must be between 0.0 and 1.0)
+
+This option adds some randomness to the delay. It's useful to avoid sending
+multiple requests to the server at the exact same time. The randomness is
+calculated as ``delay * jitter``. For example: if delay is ``1000ms`` and jitter
+is ``0.2``, the actual delay will be a number between ``800`` and ``1200`` (1000 +/- 20%).
+
+.. _reference-http-client-retry-max-delay:
+
+max_delay
+"""""""""
+
+**type**: ``integer`` **default**: ``0``
+
+The maximum amount of milliseconds initial to wait between retries.
+Use ``0`` to not limit the duration.
+
+.. _reference-http-client-retry-max-retries:
+
+max_retries
+"""""""""""
+
+**type**: ``integer`` **default**: ``3``
+
+The maximum number of retries for failing requests. When the maximum is reached,
+the client returns the last received response.
+
+.. _reference-http-client-retry-multiplier:
+
+multiplier
+"""""""""
+
+**type**: ``float`` **default**: ``2``
+
+This value is multiplied to the delay each time a retry occurs, to distribute
+retries in time instead of making all of them sequentially.
 
 scope
 .....
