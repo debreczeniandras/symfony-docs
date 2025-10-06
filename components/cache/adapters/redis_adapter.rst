@@ -338,7 +338,7 @@ Encrypts cached data using Sodium for enhanced security::
 DefaultMarshaller with igbinary Serialization
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Uses ``igbinary` for faster and more efficient serialization when available::
+Uses ``igbinary`` for faster and more efficient serialization when available::
 
     $marshaller = new DefaultMarshaller(true);
 
