@@ -3825,25 +3825,6 @@ The :doc:`NotCompromisedPassword </reference/constraints/NotCompromisedPassword>
 constraint makes HTTP requests to a public API to check if the given password
 has been compromised in a data breach.
 
-static_method
-.............
-
-**type**: ``string | array`` **default**: ``['loadValidatorMetadata']``
-
-Defines the name of the static method which is called to load the validation
-metadata of the class. You can define an array of strings with the names of
-several methods. In that case, all of them will be called in that order to load
-the metadata.
-
-translation_domain
-..................
-
-**type**: ``string | false`` **default**: ``validators``
-
-The translation domain that is used when translating validation constraint
-error messages. Use false to disable translations.
-
-
 .. _reference-validation-not-compromised-password-enabled:
 
 enabled
@@ -3866,6 +3847,24 @@ constraint uses the public API provided by `haveibeenpwned.com`_. This option
 allows to define a different, but compatible, API endpoint to make the password
 checks. It's useful for example when the Symfony application is run in an
 intranet without public access to the internet.
+
+static_method
+.............
+
+**type**: ``string | array`` **default**: ``['loadValidatorMetadata']``
+
+Defines the name of the static method which is called to load the validation
+metadata of the class. You can define an array of strings with the names of
+several methods. In that case, all of them will be called in that order to load
+the metadata.
+
+translation_domain
+..................
+
+**type**: ``string | false`` **default**: ``validators``
+
+The translation domain that is used when translating validation constraint
+error messages. Use false to disable translations.
 
 web_link
 ~~~~~~~~
