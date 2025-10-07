@@ -179,11 +179,10 @@ to write logs using the :phpfunction:`syslog` function:
                 ->level(LogLevel::ERROR);
         };
 
-This defines a *stack* of handlers, where each handler can define
-a ``priority`` (default ``0``) to control its position in the stack.
-
-Handlers with a higher priority are called earlier, while those with the same priority keep
-the order in which they are defined:
+This defines a stack of handlers. Each handler can define a ``priority``
+(default ``0``) to control its position in the stack. Handlers with a higher
+priority are called first, while those with the same priority keep the order in
+which they are defined:
 
 .. configuration-block::
 
@@ -246,8 +245,8 @@ the order in which they are defined:
 
 .. note::
 
-    When adding handlers in additional configuration files, it's recommended to set
-    an explicit priority to ensure the desired order.
+    When adding handlers in other configuration files, it's recommended to set
+    an explicit priority to ensure they are ordered as expected.
 
 .. _logging-handler-fingers_crossed:
 
