@@ -179,15 +179,74 @@ to write logs using the :phpfunction:`syslog` function:
                 ->level(LogLevel::ERROR);
         };
 
-This defines a *stack* of handlers and each handler is called in the order that it's
-defined.
+This defines a stack of handlers. Each handler can define a ``priority``
+(default ``0``) to control its position in the stack. Handlers with a higher
+priority are called first, while those with the same priority keep the order in
+which they are defined:
+
+.. configuration-block::
+
+    .. code-block:: yaml
+
+        # config/packages/prod/monolog.yaml
+        monolog:
+            handlers:
+                file_log:
+                    type: stream
+                    path: "%kernel.logs_dir%/%kernel.environment%.log"
+
+                syslog_handler:
+                    type: syslog
+                    priority: 10 # called first
+
+    .. code-block:: xml
+
+        <!-- config/packages/prod/monolog.xml -->
+        <?xml version="1.0" encoding="UTF-8" ?>
+        <container xmlns="http://symfony.com/schema/dic/services"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:monolog="http://symfony.com/schema/dic/monolog"
+            xsi:schemaLocation="http://symfony.com/schema/dic/services
+                https://symfony.com/schema/dic/services/services-1.0.xsd
+                http://symfony.com/schema/dic/monolog
+                https://symfony.com/schema/dic/monolog/monolog-1.0.xsd">
+
+            <monolog:config>
+                <monolog:handler name="file_log"
+                    type="stream"
+                    path="%kernel.logs_dir%/%kernel.environment%.log"
+                />
+
+                <!-- called first -->
+                <monolog:handler name="syslog_handler"
+                    type="syslog"
+                    priority="10"
+                />
+            </monolog:config>
+        </container>
+
+    .. code-block:: php
+
+        // config/packages/prod/monolog.php
+        use Psr\Log\LogLevel;
+        use Symfony\Config\MonologConfig;
+
+        return static function (MonologConfig $monolog): void {
+            $monolog->handler('file_log')
+                ->type('stream')
+                ->path('%kernel.logs_dir%/%kernel.environment%.log')
+            ;
+
+            $monolog->handler('syslog_handler')
+                ->type('syslog')
+                ->priority(10) // called first
+            ;
+        };
 
 .. note::
 
-    If you want to override the ``monolog`` configuration via another config
-    file, you will need to redefine the entire ``handlers`` stack. The configuration
-    from the two files cannot be merged because the order matters and a merge does
-    not allow you to control the order.
+    When adding handlers in other configuration files, it's recommended to set
+    an explicit priority to ensure they are ordered as expected.
 
 .. _logging-handler-fingers_crossed:
 
