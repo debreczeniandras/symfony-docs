@@ -221,6 +221,104 @@ you can access it using the ``getConnection()`` method and the name of the conne
         }
     }
 
+Disable Autocommit Mode
+~~~~~~~~~~~~~~~~~~~~~~~
+
+By default, `autocommit`_ is enabled when using Doctrine DBAL. This means that
+each ``INSERT``, ``UPDATE``, or ``DELETE`` statement is immediately committed
+after it runs. You don't need to call ``commit()`` or ``rollback()`` because
+there's no open transaction.
+
+You can disable autocommit to keep the connection inside a transaction until
+you explicitly call ``$connection->commit()`` or ``$connection->rollBack()``.
+Here's how to disable autocommit mode in DBAL:
+
+.. configuration-block::
+
+    .. code-block:: yaml
+
+        doctrine:
+            dbal:
+                connections:
+                    default:
+                        options:
+                            # add this only if you're using DBAL with PDO:
+                            !php/const PDO::ATTR_AUTOCOMMIT: false
+
+                    # this option disables auto-commit at the DBAL level:
+                    auto_commit: false
+
+    .. code-block:: xml
+
+        <?xml version="1.0" encoding="UTF-8" ?>
+        <container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:doctrine="http://symfony.com/schema/dic/doctrine"
+           xmlns="http://symfony.com/schema/dic/services"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+                https://symfony.com/schema/dic/services/services-1.0.xsd
+                http://symfony.com/schema/dic/doctrine
+                https://symfony.com/schema/dic/doctrine/doctrine-1.0.xsd">
+        
+            <doctrine:config>
+                <doctrine:dbal
+                   auto-commit="false"
+                 >
+                     <!-- add this only if you are using DBAL with PDO -->
+                     <doctrine:connection name="default">
+                         <doctrine:option key-type="constant" key="PDO::ATTR_AUTOCOMMIT">false</doctrine:option>
+                     </doctrine:connection>
+              </doctrine:dbal>
+          </doctrine:config>
+        </container>
+
+When using the `Doctrine Migrations Bundle`_, you need to register an additional
+listener to ensure that the final migration is committed properly:
+
+.. configuration-block::
+
+    .. code-block:: yaml
+
+        # config/services.yaml
+        services:
+            Doctrine\Migrations\Event\Listeners\AutoCommitListener:
+                tags:
+                    - name: doctrine.event_listener
+                      event: onMigrationsMigrated
+
+    .. code-block:: xml
+
+        <!-- config/services.xml -->
+        <?xml version="1.0" encoding="UTF-8" ?>
+        <container xmlns="http://symfony.com/schema/dic/services"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/services
+                https://symfony.com/schema/dic/services/services-1.0.xsd">
+        
+            <services>
+                <service id="Doctrine\Migrations\Event\Listeners\AutoCommitListener">
+                    <tag name="doctrine.event_listener" event="onMigrationsMigrated"/>
+                </service>
+            </services>
+        </container>
+
+    .. code-block:: php
+    
+        // config/services.php
+        namespace Symfony\Component\DependencyInjection\Loader\Configurator;
+
+        use Doctrine\Migrations\Event\Listeners\AutoCommitListener;
+        use Doctrine\Migrations\Events;
+        
+        return function(ContainerConfigurator $container): void {
+            $services = $container->services();
+            
+            $services->set(AutoCommitListener::class)
+                ->tag('doctrine.event_listener', [
+                    'event' => Events::onMigrationsMigrated
+                ])
+            ;
+        };
+
 Doctrine ORM Configuration
 --------------------------
 
@@ -659,6 +757,7 @@ Ensure your environment variables are correctly set in the ``.env.local`` or
 
 This configuration secures your MySQL connection with SSL by specifying the paths to the required certificates.
 
-
-.. _DBAL documentation: https://www.doctrine-project.org/projects/doctrine-dbal/en/current/reference/configuration.html
+.. _`autocommit`: https://en.wikipedia.org/wiki/Autocommit
+.. _`Doctrine Migrations Bundle`: https://github.com/doctrine/DoctrineMigrationsBundle
+.. _`DBAL documentation`: https://www.doctrine-project.org/projects/doctrine-dbal/en/current/reference/configuration.html
 .. _`Doctrine Metadata Drivers`: https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/metadata-drivers.html
