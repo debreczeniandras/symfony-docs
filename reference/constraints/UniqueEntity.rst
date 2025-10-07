@@ -139,6 +139,14 @@ between all of the rows in your user table:
     that haven't been persisted as entities yet. You'll need to create your own
     validator to handle that case.
 
+.. warning::
+
+    This constraint does not support Doctrine types such as
+    ``simple_array``, ``json``, or ``jsonb``, nor does it handle association mappings
+    like ``OneToMany`` and ``ManyToMany`` relationships. It may also not work correctly
+    with custom Doctrine types. To perform uniqueness checks on such fields, you must
+    define a custom ``repositoryMethod`` that implements the desired logic.
+
 Options
 -------
 
