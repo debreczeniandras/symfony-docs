@@ -224,7 +224,14 @@ you can access it using the ``getConnection()`` method and the name of the conne
 Disable Autocommit Mode
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-To disable the `Autocommit`_ mode, update your DBAL configuration as follows:
+By default, `autocommit`_ is enabled when using Doctrine DBAL. This means that
+each ``INSERT``, ``UPDATE``, or ``DELETE`` statement is immediately committed
+after it runs. You don't need to call ``commit()`` or ``rollback()`` because
+there's no open transaction.
+
+You can disable autocommit to keep the connection inside a transaction until
+you explicitly call ``$connection->commit()`` or ``$connection->rollBack()``.
+Here's how to disable autocommit mode in DBAL:
 
 .. configuration-block::
 
@@ -235,10 +242,10 @@ To disable the `Autocommit`_ mode, update your DBAL configuration as follows:
                 connections:
                     default:
                         options:
-                            # Only if you're using DBAL with PDO:
+                            # add this only if you're using DBAL with PDO:
                             !php/const PDO::ATTR_AUTOCOMMIT: false
 
-                    # This line disables auto-commit at the DBAL level:
+                    # this option disables auto-commit at the DBAL level:
                     auto_commit: false
 
     .. code-block:: xml
@@ -256,7 +263,7 @@ To disable the `Autocommit`_ mode, update your DBAL configuration as follows:
                 <doctrine:dbal
                    auto-commit="false"
                  >
-                     <!-- Only if you are using DBAL with PDO -->
+                     <!-- add this only if you are using DBAL with PDO -->
                      <doctrine:connection name="default">
                          <doctrine:option key-type="constant" key="PDO::ATTR_AUTOCOMMIT">false</doctrine:option>
                      </doctrine:connection>
@@ -264,7 +271,8 @@ To disable the `Autocommit`_ mode, update your DBAL configuration as follows:
           </doctrine:config>
         </container>
 
-When using the `Doctrine Migrations Bundle`_, an additional listener needs to be registered to ensure that the last migration is properly committed:
+When using the `Doctrine Migrations Bundle`_, you need to register an additional
+listener to ensure that the final migration is committed properly:
 
 .. configuration-block::
 
@@ -753,7 +761,7 @@ Ensure your environment variables are correctly set in the ``.env.local`` or
 
 This configuration secures your MySQL connection with SSL by specifying the paths to the required certificates.
 
-.. _Autocommit: https://en.wikipedia.org/wiki/Autocommit
-.. _Doctrine Migrations Bundle: https://github.com/doctrine/DoctrineMigrationsBundle
-.. _DBAL documentation: https://www.doctrine-project.org/projects/doctrine-dbal/en/current/reference/configuration.html
+.. _`autocommit`: https://en.wikipedia.org/wiki/Autocommit
+.. _`Doctrine Migrations Bundle`: https://github.com/doctrine/DoctrineMigrationsBundle
+.. _`DBAL documentation`: https://www.doctrine-project.org/projects/doctrine-dbal/en/current/reference/configuration.html
 .. _`Doctrine Metadata Drivers`: https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/metadata-drivers.html
