@@ -211,8 +211,49 @@ You can do this by defining a new HTML sanitizer in the configuration:
         );
 
 This configuration defines a new ``html_sanitizer.sanitizer.app.post_sanitizer``
-service. This service will be :doc:`autowired </service_container/autowiring>`
-for services having an ``HtmlSanitizerInterface $appPostSanitizer`` parameter.
+service. Now you have two ways of injecting it in any service or controller:
+
+**(1) Use a specific argument name**
+
+Type-hint your construtor/method argument with ``HtmlSanitizerInterface`` and name
+the argument using this pattern: "HTML sanitizer name in camelCase". For example, to
+inject the ``app.post_sanitizer`` defined earlier, use an argument named ``$appPostSanitizer``::
+
+    // src/Controller/ApiController.php
+    namespace App\Controller;
+
+    use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+    use Symfony\Component\HtmlSanitizer\HtmlSanitizerInterface;
+
+    class BlogController extends AbstractController
+    {
+        public function __construct(
+            private HtmlSanitizerInterface $appPostSanitizer,
+        ) {
+        }
+
+        // ...
+    }
+
+**(2) Use the ``#[Target]`` attribute**
+
+When :ref:`dealing with multiple implementations of the same type <autowiring-multiple-implementations-same-type>`
+the ``#[Target]`` attribute helps you select which one to inject. Symfony creates
+a target with the same name as the HTML sanitizer::
+
+    // ...
+    use Symfony\Component\DependencyInjection\Attribute\Target;
+
+    class BlogController extends AbstractController
+    {
+        public function __construct(
+            #[Target('app.post_sanitizer')]
+            private HtmlSanitizerInterface $sanitizer,
+        ) {
+        }
+
+        // ...
+    }
 
 Allow Element Baselines
 ~~~~~~~~~~~~~~~~~~~~~~~
