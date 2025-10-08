@@ -128,6 +128,14 @@ between all of the rows in your user table:
 
 .. warning::
 
+    This constraint does not support Doctrine types like ``simple_array``,
+    ``json``, or ``jsonb``, nor does it handle association mappings such as
+    ``OneToMany`` or ``ManyToMany`` relationships. It may also not work
+    correctly with custom Doctrine types. To check uniqueness for these fields,
+    define a custom ``repositoryMethod`` that implements the required logic.
+
+.. warning::
+
     This constraint doesn't provide any protection against `race conditions`_.
     They may occur when another entity is persisted by an external process after
     this validation has passed and before this entity is actually persisted in
@@ -138,14 +146,6 @@ between all of the rows in your user table:
     This constraint cannot deal with duplicates found in a collection of items
     that haven't been persisted as entities yet. You'll need to create your own
     validator to handle that case.
-
-.. warning::
-
-    This constraint does not support Doctrine types such as
-    ``simple_array``, ``json``, or ``jsonb``, nor does it handle association mappings
-    like ``OneToMany`` and ``ManyToMany`` relationships. It may also not work correctly
-    with custom Doctrine types. To perform uniqueness checks on such fields, you must
-    define a custom ``repositoryMethod`` that implements the desired logic.
 
 Options
 -------
