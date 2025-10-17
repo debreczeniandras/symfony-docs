@@ -267,10 +267,14 @@ needs.
 
 .. tip::
 
-    Accessing flash messages means that the session must be started, which
-    in turn will cause Symfony to mark the responses as ``private``. In general,
-    since flashes shall displayed only once, pages that might display flashes
-    cannot reasonably be cached in HTTP caches.
+    Accessing flash messages requires starting the session, which in turn
+    causes Symfony to mark the response as ``private``. In general, because
+    flash messages are meant to be displayed only once, pages that might show
+    them cannot reasonably be cached by HTTP caches.
+
+    As an alternative, you can load flash messages asynchronously through
+    another HTTP request (for example, using a `Twig Live Component`_), making
+    the original page fully cacheable.
 
 Configuration
 -------------
@@ -1879,6 +1883,7 @@ the example below:
     can use the Symfony save handler without side effects and that the session
     has not been started before Symfony is initialized.
 
+.. _`Twig Live Component`: https://symfony.com/bundles/ux-live-component/current/index.html
 .. _`phpredis extension`: https://github.com/phpredis/phpredis
 .. _`DoctrineMongoDBBundle configuration`: https://symfony.com/doc/master/bundles/DoctrineMongoDBBundle/config.html
 .. _`MongoDB shell`: https://docs.mongodb.com/manual/mongo/
