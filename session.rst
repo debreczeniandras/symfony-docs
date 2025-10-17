@@ -265,6 +265,13 @@ It's common to use ``notice``, ``warning`` and ``error`` as the keys of the
 different types of flash messages, but you can use any key that fits your
 needs.
 
+.. tip::
+
+    Accessing flash messages means that the session must be started, which
+    in turn will cause Symfony to mark the responses as ``private``. In general,
+    since flashes shall displayed only once, pages that might display flashes
+    cannot reasonably be cached in HTTP caches.
+
 Configuration
 -------------
 
