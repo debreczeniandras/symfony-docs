@@ -165,15 +165,15 @@ method::
 
     class FooBundle extends AbstractBundle
     {
-        public function prependExtension(ContainerConfigurator $containerConfigurator, ContainerBuilder $containerBuilder): void
+        public function prependExtension(ContainerConfigurator $container, ContainerBuilder $builder): void
         {
             // prepend
-            $containerBuilder->prependExtensionConfig('framework', [
+            $builder->prependExtensionConfig('framework', [
                 'cache' => ['prefix_seed' => 'foo/bar'],
             ]);
 
             // prepend config from a file
-            $containerConfigurator->import('../config/packages/cache.php');
+            $container->import('../config/packages/cache.php');
         }
     }
 
@@ -197,11 +197,11 @@ method::
 
     class FooBundle extends AbstractBundle
     {
-        public function prependExtension(ContainerConfigurator $containerConfigurator, ContainerBuilder $containerBuilder): void
+        public function prependExtension(ContainerConfigurator $container, ContainerBuilder $builder): void
         {
             // ...
 
-            $containerConfigurator->extension('framework', [
+            $container->extension('framework', [
                 'cache' => ['prefix_seed' => 'foo/bar'],
             ], prepend: true);
 
