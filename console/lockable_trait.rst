@@ -55,8 +55,11 @@ a ``$lockFactory`` property with your own lock factory::
     {
         use LockableTrait;
 
-        public function __construct(private LockFactory $lockFactory)
+        public function __construct(LockFactory $lockFactory)
         {
+            $this->lockFactory = $lockFactory;
+
+            parent::__construct();
         }
 
         // ...
