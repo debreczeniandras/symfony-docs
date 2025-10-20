@@ -46,6 +46,8 @@ You can validate each of these constraints sequentially to solve these issues:
 
         class Place
         {
+            private const string ADDRESS_REGEX = '...';
+
             #[Assert\Sequentially([
                 new Assert\NotNull,
                 new Assert\Type('string'),
@@ -54,6 +56,8 @@ You can validate each of these constraints sequentially to solve these issues:
                 new AcmeAssert\Geolocalizable,
             ])]
             public string $address;
+
+            // ...
         }
 
     .. code-block:: yaml
@@ -105,6 +109,10 @@ You can validate each of these constraints sequentially to solve these issues:
 
         class Place
         {
+            private const string ADDRESS_REGEX = '...';
+
+            // ...
+
             public static function loadValidatorMetadata(ClassMetadata $metadata): void
             {
                 $metadata->addPropertyConstraint('address', new Assert\Sequentially([
