@@ -291,7 +291,7 @@ The process follows these steps:
 
 .. code-block:: terminal
 
-    # 'origin' is refered to as the main upstream project
+    # 'origin' is referred to as the main upstream project
     $ git fetch origin
 
     # update the local branches

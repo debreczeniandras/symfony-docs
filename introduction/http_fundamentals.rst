@@ -20,7 +20,7 @@ to communicate with each other. For example, when checking for the latest
 .. raw:: html
 
     <object data="../_images/http/xkcd-full.svg" type="image/svg+xml"
-        alt="A sequence diagram showing the browser sending &quot;Can I see today's comic?&quot; to the xkcd server. The server prepares the page's HTML and sents it back to the browser."
+        alt="A sequence diagram showing the browser sending &quot;Can I see today's comic?&quot; to the xkcd server. The server prepares the page's HTML and sends it back to the browser."
     ></object>
 
 HTTP is the term used to describe this text-based language. The goal of
