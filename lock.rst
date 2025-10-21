@@ -289,7 +289,7 @@ them in any service or controller:
 
 **(1) Use a specific argument name**
 
-Type-hint your construtor/method argument with ``LockFactory`` and name the
+Type-hint your constructor/method argument with ``LockFactory`` and name the
 argument using this pattern: "lock name in camelCase" + ``LockFactory`` suffix.
 For example, to inject the ``invoice`` package defined earlier::
 
