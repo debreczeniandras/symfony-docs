@@ -55,7 +55,7 @@ All context options available for the JSON encoder are:
 The ``CsvEncoder``
 ------------------
 
-The ``CsvEncoder`` encodes to and decodes from CSV. Serveral :ref:`context options <serializer-context>`
+The ``CsvEncoder`` encodes to and decodes from CSV. Several :ref:`context options <serializer-context>`
 are available to customize the behavior of the encoder:
 
 ``csv_delimiter`` (default: ``,``)

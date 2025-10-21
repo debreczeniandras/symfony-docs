@@ -215,7 +215,7 @@ service. Now you have two ways of injecting it in any service or controller:
 
 **(1) Use a specific argument name**
 
-Type-hint your construtor/method argument with ``HtmlSanitizerInterface`` and name
+Type-hint your constructor/method argument with ``HtmlSanitizerInterface`` and name
 the argument using this pattern: "HTML sanitizer name in camelCase". For example, to
 inject the ``app.post_sanitizer`` defined earlier, use an argument named ``$appPostSanitizer``::
 

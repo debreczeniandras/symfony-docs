@@ -238,7 +238,7 @@ them in any service or controller:
 
 **(1) Use a specific argument name**
 
-Type-hint your construtor/method argument with ``RateLimiterFactoryInterface`` and name
+Type-hint your constructor/method argument with ``RateLimiterFactoryInterface`` and name
 the argument using this pattern: "rate limiter name in camelCase" + ``Limiter`` suffix.
 For example, to inject the ``anonymous_api`` limiter defined earlier, use an
 argument named ``$anonymousApiLimiter``::

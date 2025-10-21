@@ -282,7 +282,7 @@ them in any service or controller:
 
 **(1) Use a specific argument name**
 
-Type-hint your construtor/method argument with ``PackageInterface`` and name
+Type-hint your constructor/method argument with ``PackageInterface`` and name
 the argument using this pattern: "asset package name in camelCase". For example,
 to inject the ``foo_package`` package defined earlier::
 

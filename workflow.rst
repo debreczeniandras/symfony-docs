@@ -337,7 +337,7 @@ injecting each workflow in any service or controller:
 
 **(1) Use a specific argument name**
 
-Type-hint your construtor/method argument with ``WorkflowInterface`` and name the
+Type-hint your constructor/method argument with ``WorkflowInterface`` and name the
 argument using this pattern: "workflow name in camelCase" + ``Workflow`` suffix.
 If it is a state machine type, use the ``StateMachine`` suffix.
 
