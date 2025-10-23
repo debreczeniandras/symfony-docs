@@ -60,8 +60,6 @@ a ``$lockFactory`` property with your own lock factory::
         public function __construct(LockFactory $lockFactory)
         {
             $this->lockFactory = $lockFactory;
-
-            parent::__construct();
         }
 
         // ...
